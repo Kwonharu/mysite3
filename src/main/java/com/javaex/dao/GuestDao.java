@@ -261,16 +261,15 @@ public class GuestDao {
 			rs = pstmt.executeQuery();
 
 			// 4.결과처리
-			while (rs.next()) {
+			rs.next();
 
-				int no = rs.getInt(1);
-				String name = rs.getString(2);
-				String content = rs.getString(3);
-				String reg_date = rs.getString(4);
+			int no = rs.getInt(1);
+			String name = rs.getString(2);
+			String content = rs.getString(3);
+			String reg_date = rs.getString(4);
 
-				guestBookVo = new GuestVo(no, name, content, reg_date);
+			guestBookVo = new GuestVo(no, name, content, reg_date);
 
-			}
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
@@ -281,6 +280,9 @@ public class GuestDao {
 		return guestBookVo;
 
 	}
+	
+
+	
 }
 
 

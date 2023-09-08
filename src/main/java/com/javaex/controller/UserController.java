@@ -2,12 +2,12 @@ package com.javaex.controller;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.javaex.dao.UserDao;
 import com.javaex.util.WebUtil;
@@ -23,7 +23,6 @@ public class UserController extends HttpServlet {
 		String action = request.getParameter("action");
 		
 		if("joinForm".equals(action)) {
-			
 			//회원가입 폼(action=joinForm)
 			System.out.println("action=joinForm");
 			
@@ -36,7 +35,6 @@ public class UserController extends HttpServlet {
 
 
 		}else if("join".equals(action)) {
-			
 			//회원가입(action=join)	
 			System.out.println("action=join");
 			
@@ -58,12 +56,53 @@ public class UserController extends HttpServlet {
 			response.sendRedirect("user?action=joinOk");
 			
 		}else if("joinOk".equals(action)) {
+			//가입 성공
+			System.out.println("action=joinOk");
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/user/joinOk.jsp");
 			
 		}else if("loginForm".equals(action)) {
+			//로그인폼
+			System.out.println("action=loginForm");
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/user/loginForm.jsp");
+			
+		}else if("login".equals(action)) {
+			//로그인
+			System.out.println("action=login");
+			
+			//파라미터 꺼내오기
+			String id = request.getParameter("id");
+			String pw = request.getParameter("pw");
+			
+			//vo로 묶기
+			UserVo userVo = new UserVo();
+			userVo.setId(id);
+			userVo.setPassword(pw);
+			
+			//dao를 통해 로그인한 사용자가 있는지 확인
+			UserDao userDao = new UserDao();
+			UserVo authUser = userDao.userSelect(userVo);
+			
+			/*
+			System.out.println(authUser);
+			authUser != null : 로그인 성공
+			authUser == null : 로그인 실패
+			*/
+			
+			if(authUser != null){
+				//세션에 값 넣기 (로그인)
+				HttpSession session = request.getSession();
+				session.setAttribute("authUser", authUser);
+
+				//redirect to main
+				WebUtil.redirect(request, response, "/mysite3/main");
+				
+			}else {
+				//컷!
+				WebUtil.redirect(request, response, "/mysite3/user?action=loginForm&result=fail");
+			}
+			
 		}
 		
 		

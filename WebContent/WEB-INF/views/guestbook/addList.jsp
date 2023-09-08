@@ -119,7 +119,7 @@
 							<td><%=guestList.get(i).getNo()%></td>
 							<td><%=guestList.get(i).getName()%></td>
 							<td><%=guestList.get(i).getReg_date()%></td>
-							<td><a href="">수정</a></td>
+							<!-- <td><a href="">수정</a></td> -->
 							<td><a href="">삭제</a></td>
 						</tr>
 						<tr>

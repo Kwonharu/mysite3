@@ -62,8 +62,8 @@ public class UserDao {
 		}
 	}
 
-	
-	public int userInsert(UserVo UserVo) { //Vo로 받았음
+	//회원가입
+	public int userInsert(UserVo userVo) { //Vo로 받았음
 		int count = -1;
 
 		this.getConnect();
@@ -77,10 +77,10 @@ public class UserDao {
 			
 			//바인딩
 			pstmt = conn.prepareStatement(query); 
-			pstmt.setString(1, UserVo.getId());
-			pstmt.setString(2, UserVo.getPassword());
-			pstmt.setString(3, UserVo.getName());
-			pstmt.setString(4, UserVo.getGender());
+			pstmt.setString(1, userVo.getId());
+			pstmt.setString(2, userVo.getPassword());
+			pstmt.setString(3, userVo.getName());
+			pstmt.setString(4, userVo.getGender());
 			
 			//실행
 			count = pstmt.executeUpdate();
@@ -94,6 +94,53 @@ public class UserDao {
 
 		return count;
 	}
+	
+	//로그인
+	public UserVo userSelect(UserVo userVo) {
+
+		UserVo authUser = null;
+		
+		this.getConnect();
+
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			// SQL문 준비
+			String query = "";
+			query += " select no, ";
+			query += " 		  name ";
+			query += " from users ";
+			query += " where id = ? ";
+			query += " and password = ? ";
+
+			//바인딩
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userVo.getId());
+			pstmt.setString(2, userVo.getPassword());
+			
+			//실행
+			rs = pstmt.executeQuery();
+
+			//결과처리
+			rs.next();
+			int no = rs.getInt(1);
+			String name = rs.getString(2);
+			
+			//vo로 묶기
+			authUser = new UserVo();
+			authUser.setNo(no);
+			authUser.setName(name);
+			
+			System.out.println(authUser);
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		this.close();
+		
+		return authUser;
+	}
+	
 }
 
 
