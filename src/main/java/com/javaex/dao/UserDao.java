@@ -141,7 +141,92 @@ public class UserDao {
 		return authUser;
 	}
 	
+	
+	public int userUpdate(UserVo userVo) { //Vo로 받았음
+		int count = -1;
+
+		this.getConnect();
+
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			// SQL문 준비
+			String query = "";
+			query += " update users ";
+			query += " set  password = ?, ";
+			query += " 		name = ?, ";
+			query += " 		gender = ? ";
+			query += " where no = ? ";
+			     			
+			//바인딩
+			pstmt = conn.prepareStatement(query); 
+			pstmt.setString(1, userVo.getPassword());
+			pstmt.setString(2, userVo.getName());
+			pstmt.setString(3, userVo.getGender());
+			pstmt.setInt(4, userVo.getNo());
+			
+			//실행
+			count = pstmt.executeUpdate();
+			
+		
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		this.close();
+
+		return count;
+	}
+	
+	//업데이트를 위해 다 가져오기
+	public UserVo userSelectAll(int num) {
+
+		UserVo userVoAll = null;
+		
+		this.getConnect();
+
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			// SQL문 준비
+			String query = "";
+			query += " select no, ";
+			query += " 		  name, ";
+			query += " 		  id, ";
+			query += " 		  password, ";
+			query += " 		  gender ";
+			query += " from users ";
+			query += " where no = ? ";
+
+			//바인딩
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			//실행
+			rs = pstmt.executeQuery();
+
+			//결과처리
+			rs.next();
+			int no = rs.getInt(1);
+			String name = rs.getString(2);
+			String id = rs.getString(3);
+			String pw = rs.getString(4);
+			String gender = rs.getString(5);
+			
+			//vo로 묶기
+			userVoAll = new UserVo(no, id, name, pw, gender);
+			
+			System.out.println("userVoAll(userSelectAll) "+userVoAll);
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		this.close();
+		
+		return userVoAll;
+	}
+	
 }
+
 
 
 

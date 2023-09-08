@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+<%
+	String result = request.getParameter("result");
+	System.out.println("result(joinForm) : "+ result);
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,24 +18,8 @@
 <body>
 	<div id="wrap">
 
-		<div id="header" class="clearfix">
-			<h1>
-				<a href="">MySite</a>
-			</h1>
-
-			<!-- 
-			<ul>
-				<li>황일영 님 안녕하세요^^</li>
-				<li><a href="" class="btn_s">로그아웃</a></li>
-				<li><a href="" class="btn_s">회원정보수정</a></li>
-			</ul>
-			-->	
-			<ul>
-				<li><a href="" class="btn_s">로그인</a></li>
-				<li><a href="" class="btn_s">회원가입</a></li>
-			</ul>
-			
-		</div>
+		<!-- //header -->
+		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 		<!-- //header -->
 
 		<div id="nav">
@@ -97,7 +86,7 @@
 								<span class="form-text">성별</span> 
 								
 								<label for="rdo-male">남</label> 
-								<input type="radio" id="rdo-male" name="gender" value="male" > 
+								<input type="radio" id="rdo-male" name="gender" value="male" checked="checked"> 
 								
 								<label for="rdo-female">여</label> 
 								<input type="radio" id="rdo-female" name="gender" value="female" > 
@@ -112,12 +101,17 @@
 								<label for="chk-agree">서비스 약관에 동의합니다.</label> 
 							</div>
 							
+							<!-- 가입 실패 시	-->
+							<%if("fail".equals(result)){%>
+								<p>가입 실패</p>
+							<%}%>
+							
 							<!-- 버튼영역 -->
 							<div class="button-area">
 								<button type="submit" id="btn-submit">회원가입</button>
 							</div>
 							
-							<input type="text" name="action" value="join">
+							<input type="hidden" name="action" value="join">
 							
 						</form>
 					</div>
@@ -129,9 +123,8 @@
 		</div>
 		<!-- //container  -->
 		
-		<div id="footer">
-			Copyright ⓒ 2023 Adele. All right reserved
-		</div>
+		<!-- //footer -->
+		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 		<!-- //footer -->
 
 	</div>

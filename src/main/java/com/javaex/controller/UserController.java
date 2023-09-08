@@ -53,7 +53,17 @@ public class UserController extends HttpServlet {
 			int count = userDao.userInsert(userVo);
 			System.out.println(count);
 			
-			response.sendRedirect("user?action=joinOk");
+			//회원가입 성공 시
+			if(count != -1){
+				
+				WebUtil.redirect(request, response, "user?action=joinOk");
+				//response.sendRedirect("user?action=joinOk");
+				
+			//회원가입 실패 시
+			}else {
+				WebUtil.redirect(request, response, "/mysite3/user?action=joinForm&result=fail");
+			}
+
 			
 		}else if("joinOk".equals(action)) {
 			//가입 성공
@@ -102,6 +112,70 @@ public class UserController extends HttpServlet {
 				//컷!
 				WebUtil.redirect(request, response, "/mysite3/user?action=loginForm&result=fail");
 			}
+			
+		}else if("logout".equals(action)) {
+			//로그인폼
+			System.out.println("action=logout");
+			
+			HttpSession session = request.getSession();
+			//세션의 모든 값을 지움.
+			session.invalidate();
+			
+			WebUtil.redirect(request, response, "/mysite3/main");
+			
+		}else if("modifyForm".equals(action)) {
+			//수정폼
+			System.out.println("action=modifyForm");
+			
+			HttpSession session = request.getSession();
+			
+			//로그인을 했으면
+			if(session.getAttribute("no") != null) {
+			    //db에서 회원정보가져오기 no-->  vo<---
+				
+			
+			    WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
+			
+			//로그인을 안했으면
+			}else {
+				//로그인폼
+				WebUtil.redirect(request, response, "/mysite3/user?action=loginForm");
+			}
+			
+		}else if("modify".equals(action)) {
+			//수정
+			System.out.println("action=modify");
+			
+			int no = Integer.parseInt(request.getParameter("no"));
+			String id = request.getParameter("id");
+			String pw = request.getParameter("pw");
+			String name = request.getParameter("name");
+			String gender = request.getParameter("gender");
+			
+			UserVo userVo = new UserVo(no, id, name, pw, gender);
+			UserDao userDao = new UserDao();
+			userDao.userUpdate(userVo);
+			
+			//세션 업데이트
+			UserVo authUser = userDao.userSelect(userVo);
+			
+			System.out.println("authUser(controller) : "+authUser); 
+			
+			if(authUser != null){
+				//db 업데이트 후 세션 업데이트
+				HttpSession session = request.getSession();
+				session.setAttribute("authUser", authUser);
+
+				//redirect to main
+				WebUtil.redirect(request, response, "/mysite3/main");
+				
+			}else {
+				//컷!
+				WebUtil.redirect(request, response, "/mysite3/user?action=modifyForm&result=fail");
+			}
+			
+		}else {
+			System.out.println("따흐흑");
 			
 		}
 		

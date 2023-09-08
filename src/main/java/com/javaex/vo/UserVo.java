@@ -30,6 +30,14 @@ public class UserVo {
 		this.gender = gender;
 	}
 	
+	public UserVo(int no, String password, String name, String gender) {
+		super();
+		this.no = no;
+		this.name = name;
+		this.password = password;
+		this.gender = gender;
+	}
+
 	//메소드 gs
 	public int getNo() {
 		return no;
