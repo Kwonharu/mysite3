@@ -130,14 +130,22 @@ public class UserController extends HttpServlet {
 			HttpSession session = request.getSession();
 			
 			//로그인을 했으면
-			if(session.getAttribute("no") != null) {
+			if(session.getAttribute("authUser") != null) {
 			    //db에서 회원정보가져오기 no-->  vo<---
+				UserDao userDao = new UserDao();
 				
-			
+				UserVo userVo = (UserVo) session.getAttribute("authUser");
+				int no = userVo.getNo();
+				UserVo userVoAll = userDao.userSelectAll(no);
+				
+				request.setAttribute("userVoAll", userVoAll);
+				
 			    WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
 			
 			//로그인을 안했으면
 			}else {
+				System.out.println("세션에 값이 없음 == 로그인 안 함");
+				
 				//로그인폼
 				WebUtil.redirect(request, response, "/mysite3/user?action=loginForm");
 			}

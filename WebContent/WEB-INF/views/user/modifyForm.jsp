@@ -3,8 +3,8 @@
 <%@ page import="com.javaex.vo.UserVo"%>
 
 <%
-	UserVo authUser = (UserVo)session.getAttribute("authUser");
-	System.out.println("authUser(modifyForm) : "+ authUser);
+	UserVo userVoAll = (UserVo) request.getAttribute("userVoAll");
+	System.out.println("authUser(modifyForm) : "+ userVoAll);
 	
 	String result = request.getParameter("result");
 	System.out.println("result(modifyForm) : "+ result);
