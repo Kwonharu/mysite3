@@ -4,6 +4,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.javaex.vo.GuestVo" %>
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <%
 	List<GuestVo> guestList = (List<GuestVo>)request.getAttribute("guestList");
 
@@ -24,17 +26,10 @@
 	<div id="wrap">
 
 		<!-- //header -->
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 		<!-- //header -->
 
-		<div id="nav">
-			<ul class="clearfix">
-				<li><a href="">입사지원서</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="/mysite3/guest?action=addList">방명록</a></li>
-			</ul>
-		</div>
+		<c:import url="/WEB-INF/views/include/nav.jsp"></c:import>
 		<!-- //nav -->
 	
 		<div id="container" class="clearfix">
@@ -121,7 +116,7 @@
 		<!-- //container  -->
 
 		<!-- //footer -->
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 		<!-- //footer -->
 	</div>
 	<!-- //wrap -->
