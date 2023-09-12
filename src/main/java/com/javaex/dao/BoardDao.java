@@ -233,7 +233,33 @@ public class BoardDao {
 		return count;
 	}
 	
-	
+	//게시글 삭제
+	public int boardDelete(int no) {
+		int count = -1;
+		
+		this.getConnect();
+		
+		try {
+			String query = "";
+			query += " delete board ";
+			query += " where no = ? ";
+
+			//바인딩
+			pstmt = conn.prepareStatement(query); 
+			pstmt.setInt(1, no);
+			
+			//실행
+			count = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		this.close();
+
+		return count;
+	}
 	
 }
 
