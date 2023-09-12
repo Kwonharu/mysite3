@@ -30,13 +30,22 @@ public class BoardVo {
 	}
 	
 	//boardSelect 용
-	public BoardVo(String name, int hit, String regDate, String title, String content) {
+	public BoardVo(String name, int hit, String regDate, String title, String content, int no) {
 		super();
 		this.title = title;
 		this.content = content;
 		this.name = name;
 		this.hit = hit;
 		this.regDate = regDate;
+		this.no = no;
+	}
+	
+
+	public BoardVo(String title, String content, int no) {
+		super();
+		this.no = no;
+		this.title = title;
+		this.content = content;
 	}
 
 	public void setNo(int no) {

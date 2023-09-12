@@ -117,12 +117,45 @@ public class BoardController extends HttpServlet {
 			}
 			
 		}else if("modifyForm".equals(action)) {
-			//게시글 수정
+			//게시글 수정 폼
 			System.out.println("action: modifyForm");
 			
+			//넘어온 파라미터
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+			System.out.println("no: "+ no);
+			
+			//파라미터로 bd에서 추출 -> vo로 저장 후 넘기기
+			BoardDao boardDao = new BoardDao();
+			BoardVo boardVo = boardDao.boardSelect(no);
+			request.setAttribute("boardVo", boardVo);
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/board/modifyForm.jsp");
 			
+			
+		}else if("update".equals(action)) {
+			//게시글 수정
+			System.out.println("action: update");
+			
+			HttpSession session = request.getSession();
+			
+			if(session.getAttribute("authUser") != null) {
+				
+				String title = request.getParameter("title");
+				String content = request.getParameter("content");
+				int no = Integer.parseInt(request.getParameter("no"));
+				
+				BoardVo boardVo = new BoardVo(title, content, no);
+				
+				BoardDao boardDao = new BoardDao();
+				int count = boardDao.boardUpdate(boardVo);
+				System.out.println("boardUpdate count: "+count);
+				
+				WebUtil.redirect(request, response, "/mysite3/board?action=list");
+			
+			}else{
+				WebUtil.redirect(request, response, "/mysite3/user?action=loginForm");
+			}
 			
 		}else {
 			System.out.println("읎서요");

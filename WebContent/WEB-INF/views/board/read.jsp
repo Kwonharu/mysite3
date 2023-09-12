@@ -83,7 +83,9 @@
 								</span>
 							</div>
 							
-							<a id="btn_modify" href="/mysite3/board?action=modifyForm">수정</a>
+							<c:if test="${sessionScope.authUser.name eq boardVo.name}">
+								<a id="btn_modify" href="/mysite3/board?action=modifyForm&no=${boardVo.no}">수정</a>
+							</c:if>
 							<a id="btn_modify" href="/mysite3/board?action=list">목록</a>
 							
 						</form>
