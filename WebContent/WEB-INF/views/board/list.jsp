@@ -71,11 +71,11 @@
 							<c:forEach items="${boardList}" var="boardVo">
 								<tr>
 									<td>${boardVo.no}</td>
-									<td class="text-left"><a href="/mysite3/board?action=read?no=${boardVo.no}">${boardVo.title}</a></td>
+									<td class="text-left"><a href="/mysite3/board?action=read&no=${boardVo.no}">${boardVo.title}</a></td>
 									<td>${boardVo.name}</td>
 									<td>${boardVo.hit}</td>
 									<td>${boardVo.regDate}</td>
-									<td><a href="/mysite3/board?action=delete?no=${boardVo.no}">[삭제]</a></td>
+									<td><a href="/mysite3/board?action=delete&no=${boardVo.no}">[삭제]</a></td>
 								</tr>
 							</c:forEach>
 							</tbody>
@@ -100,7 +100,7 @@
 							
 							<div class="clear"></div>
 						</div>
-						<a id="btn_write" href="">글쓰기</a>
+						<a id="btn_write" href="/mysite3/board?action=writeForm">글쓰기</a>
 					
 					</div>
 					<!-- //list -->

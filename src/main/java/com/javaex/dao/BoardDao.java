@@ -120,6 +120,86 @@ public class BoardDao {
 		return boardList;
 	}
 	
+	//게시글 불러오기
+	public BoardVo boardSelect(int no) {
+
+		BoardVo boardVo = null;
+		
+		this.getConnect();
+
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			// SQL문 준비
+			String query = "";
+			query += " select u.name, ";
+			query += " 		  b.hit, ";
+			query += " 		  b.reg_date, ";
+			query += " 		  b.title, ";
+			query += " 		  b.content ";
+			query += " from board b, users u ";
+			query += " where b.user_no = u.no ";
+			query += " and b.no = ? ";
+
+			//바인딩
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, no);
+			
+			//실행
+			rs = pstmt.executeQuery();
+
+			//결과처리
+			rs.next();
+			String name = rs.getString(1);
+			int hit = rs.getInt(2);
+			String regDate = rs.getString(3);
+			String title = rs.getString(4);
+			String content = rs.getString(5);
+			
+			//vo로 묶기
+			boardVo = new BoardVo(name, hit, regDate, title, content);
+			boardVo.setContent(boardVo.getContent().replace("\r\n", "<br>"));
+			
+			System.out.println("boardVo: "+boardVo);
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		this.close();
+		
+		return boardVo;
+	}
+	
+	
+	//게시글 클릭 시 조회수 증가
+	public int boardHitUpdate(int no) {
+		int count = -1;
+		
+		this.getConnect();
+		
+		try {
+			String query = "";
+			query += " update board ";
+			query += " set hit = hit + 1 ";
+			query += " where no = ? ";
+
+			//바인딩
+			pstmt = conn.prepareStatement(query); 
+			pstmt.setInt(1, no);
+			
+			//실행
+			count = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		this.close();
+
+		return count;
+	}
+	
 	
 	//게시글 작성
 	public int boardInsert(BoardVo boardVo) { //Vo로 받았음

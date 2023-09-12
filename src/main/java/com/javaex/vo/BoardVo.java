@@ -24,9 +24,19 @@ public class BoardVo {
 		this.regDate = regDate;
 		this.userNo = userNo;
 	}
-
+	
 	public int getNo() {
 		return no;
+	}
+	
+	//boardSelect 용
+	public BoardVo(String name, int hit, String regDate, String title, String content) {
+		super();
+		this.title = title;
+		this.content = content;
+		this.name = name;
+		this.hit = hit;
+		this.regDate = regDate;
 	}
 
 	public void setNo(int no) {
