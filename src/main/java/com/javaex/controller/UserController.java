@@ -134,6 +134,7 @@ public class UserController extends HttpServlet {
 			    //db에서 회원정보가져오기 no-->  vo<---
 				UserDao userDao = new UserDao();
 				
+				//로그인 할 때 세션에 저장한 authUser 가져오기
 				UserVo userVo = (UserVo) session.getAttribute("authUser");
 				int no = userVo.getNo();
 				UserVo userVoAll = userDao.userSelectAll(no);
@@ -142,9 +143,9 @@ public class UserController extends HttpServlet {
 				
 			    WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
 			
-			//로그인을 안했으면
+			//로그인을 안 했으면
 			}else {
-				System.out.println("세션에 값이 없음 == 로그인 안 함");
+				System.out.println("세션에 값이 없음 == 로그인 안 했구나 이녀석 감히");
 				
 				//로그인폼
 				WebUtil.redirect(request, response, "/mysite3/user?action=loginForm");

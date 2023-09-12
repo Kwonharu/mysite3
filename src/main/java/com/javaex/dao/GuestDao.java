@@ -100,7 +100,7 @@ public class GuestDao {
 	}
 
 	// 사람삭제
-	public int guestDelete(String guestbookPW) {
+	public int guestDelete(int guestNo) {
 
 		int count = -1;
 
@@ -111,12 +111,12 @@ public class GuestDao {
 			// SQL문 준비
 			String query = "";
 			query += " delete from guestbook ";
-			query += " where password = ? ";
+			query += " where no = ? ";
 
 			pstmt = conn.prepareStatement(query);
 
 			// 바인딩
-			pstmt.setString(1, guestbookPW);
+			pstmt.setInt(1, guestNo);
 
 
 			// 실행
@@ -246,11 +246,12 @@ public class GuestDao {
 			// SQL문 준비
 			String query = "";
 			query += " select  no, ";
+			query += "         password, ";
 			query += "         name, ";
 			query += "         content, ";
 			query += "         reg_date ";
 			query += " from guestbook ";
-			query += " where person_id = ? ";
+			query += " where no = ? ";
 			
 			pstmt = conn.prepareStatement(query);
 
@@ -261,15 +262,17 @@ public class GuestDao {
 			rs = pstmt.executeQuery();
 
 			// 4.결과처리
-			rs.next();
+			while (rs.next()) {
 
-			int no = rs.getInt(1);
-			String name = rs.getString(2);
-			String content = rs.getString(3);
-			String reg_date = rs.getString(4);
+				int no = rs.getInt(1);
+				String password = rs.getString(2);
+				String name = rs.getString(3);
+				String content = rs.getString(4);
+				String reg_date = rs.getString(5);
 
-			guestBookVo = new GuestVo(no, name, content, reg_date);
+				guestBookVo = new GuestVo(no, name, password, content, reg_date);
 
+			}
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);

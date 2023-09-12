@@ -32,7 +32,7 @@
 				<li><a href="">입사지원서</a></li>
 				<li><a href="">게시판</a></li>
 				<li><a href="">갤러리</a></li>
-				<li><a href="">방명록</a></li>
+				<li><a href="/mysite3/guest?action=addList">방명록</a></li>
 			</ul>
 		</div>
 		<!-- //nav -->
@@ -62,7 +62,7 @@
 				<!-- //content-head -->
 
 				<div id="guestbook">
-					<form action="" method="">
+					<form action="/mysite3/guest" method="get">
 						<table id="guestAdd">
 							<colgroup>
 								<col style="width: 70px;">
@@ -84,10 +84,9 @@
 									<td colspan="4" class="text-center"><button type="submit">등록</button></td>
 								</tr>
 							</tbody>
-							
 						</table>
-						<!-- //guestWrite -->
-						<input type="hidden" name="action" value="add">
+						<!-- //guest등록 -->
+						<input type="hidden" name="action" value="insert">
 						
 					</form>	
 					
@@ -104,7 +103,7 @@
 							<td><%=guestList.get(i).getName()%></td>
 							<td><%=guestList.get(i).getReg_date()%></td>
 							<!-- <td><a href="">수정</a></td> -->
-							<td><a href="">삭제</a></td>
+							<td><a href="/mysite3/guest?action=deleteForm&no=<%=guestList.get(i).getNo()%>">삭제</a></td>
 						</tr>
 						<tr>
 							<td colspan=4 class="text-left"><%=guestList.get(i).getContent()%></td>
