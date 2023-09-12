@@ -75,7 +75,9 @@
 									<td>${boardVo.name}</td>
 									<td>${boardVo.hit}</td>
 									<td>${boardVo.regDate}</td>
-									<td><a href="/mysite3/board?action=delete&no=${boardVo.no}">[삭제]</a></td>
+									<c:if test="${sessionScope.authUser.no eq boardVo.no}">
+										<td><a href="/mysite3/board?action=delete&no=${boardVo.no}">[삭제]</a></td>
+									</c:if>
 								</tr>
 							</c:forEach>
 							</tbody>
@@ -100,8 +102,9 @@
 							
 							<div class="clear"></div>
 						</div>
-						<a id="btn_write" href="/mysite3/board?action=writeForm">글쓰기</a>
-					
+						<c:if test="${!empty sessionScope.authUser}">
+							<a id="btn_write" href="/mysite3/board?action=writeForm">글쓰기</a>
+						</c:if>
 					</div>
 					<!-- //list -->
 				</div>

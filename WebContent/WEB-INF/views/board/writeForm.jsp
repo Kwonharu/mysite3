@@ -66,7 +66,7 @@
 							<button id="btn_add" type="submit" >등록</button>
 							
 							<input type="hidden" name="action" value="insert">
-							<input type="hidden" name="userNo" value="1">
+							<input type="hidden" name="userNo" value="${sessionScope.authUser.no}">
 							
 						</form>
 						<!-- //form -->

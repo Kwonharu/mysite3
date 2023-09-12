@@ -83,8 +83,8 @@
 								</span>
 							</div>
 							
-							<a id="btn_modify" href="/mysite3/board?action=list">수정</a>
-							<a id="btn_modify" href="">목록</a>
+							<a id="btn_modify" href="/mysite3/board?action=modifyForm">수정</a>
+							<a id="btn_modify" href="/mysite3/board?action=list">목록</a>
 							
 						</form>
 						<!-- //form -->
