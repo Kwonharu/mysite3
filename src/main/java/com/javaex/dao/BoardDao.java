@@ -136,7 +136,8 @@ public class BoardDao {
 			query += " 		  b.reg_date, ";
 			query += " 		  b.title, ";
 			query += " 		  b.content, ";
-			query += " 		  b.no ";
+			query += " 		  b.no, ";
+			query += " 		  b.user_no ";
 			query += " from board b, users u ";
 			query += " where b.user_no = u.no ";
 			query += " and b.no = ? ";
@@ -156,9 +157,10 @@ public class BoardDao {
 			String title = rs.getString(4);
 			String content = rs.getString(5);
 			int boardNo = rs.getInt(6);
+			int userNo = rs.getInt(7);
 			
 			//vo로 묶기
-			boardVo = new BoardVo(name, hit, regDate, title, content, boardNo);
+			boardVo = new BoardVo(name, hit, regDate, title, content, boardNo, userNo);
 			boardVo.setContent(boardVo.getContent().replace("\r\n", "<br>"));
 			
 			System.out.println("boardVo: "+boardVo);

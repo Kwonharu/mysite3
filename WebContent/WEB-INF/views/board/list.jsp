@@ -76,7 +76,7 @@
 									<td>${boardVo.hit}</td>
 									<td>${boardVo.regDate}</td>
 									<c:if test="${sessionScope.authUser.name eq boardVo.name}">
-										<td><a href="/mysite3/board?action=delete&no=${boardVo.no}&name=${boardVo.name}">[삭제]</a></td>
+										<td><a href="/mysite3/board?action=delete&no=${boardVo.no}">[삭제]</a></td>
 									</c:if>
 								</tr>
 							</c:forEach>

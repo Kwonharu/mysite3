@@ -19,7 +19,7 @@ import com.javaex.vo.UserVo;
 @WebServlet("/board")
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		
@@ -94,20 +94,20 @@ public class BoardController extends HttpServlet {
 			//게시글 삭제
 			System.out.println("action: delete");
 			
-			//session에서 유저 이름 가져오기
+			//session에서 유저 번호 가져오기
 			HttpSession session = request.getSession();
 			UserVo userVo = (UserVo) session.getAttribute("authUser");
-			String userName = userVo.getName();
+			int userNo = userVo.getNo();
 			
-			//게시글 작성자 가져오기
+			//게시글의 user_no가져오기
 			BoardDao boardDao = new BoardDao();
-			
 			int no = Integer.parseInt(request.getParameter("no"));
 			BoardVo boradVo = boardDao.boardSelect(no);
-			String boardName = boradVo.getName();
+			int boardNo = boradVo.getUserNo();
 			
-			//세션의 name == board의 name 일 경우
-			if(userName.equals(boardName)) {
+			
+			//세션의 no == board의 user_no 일 경우
+			if(userNo == boardNo) {
 				int count = boardDao.boardDelete(no);
 				System.out.println("delete count: "+ count);
 				
@@ -137,24 +137,33 @@ public class BoardController extends HttpServlet {
 			//게시글 수정
 			System.out.println("action: update");
 			
+			//session에서 유저 번호 가져오기
 			HttpSession session = request.getSession();
+			UserVo userVo = (UserVo) session.getAttribute("authUser");
+			int userNo = userVo.getNo();
 			
-			if(session.getAttribute("authUser") != null) {
-				
+			//게시글의 user_no가져오기
+			BoardDao boardDao = new BoardDao();
+			int no = Integer.parseInt(request.getParameter("no"));
+			BoardVo boradVo = boardDao.boardSelect(no);
+			int boardNo = boradVo.getUserNo();
+			
+			
+			//세션의 no == board의 user_no 일 경우
+			if(userNo == boardNo) {
 				String title = request.getParameter("title");
 				String content = request.getParameter("content");
-				int no = Integer.parseInt(request.getParameter("no"));
+//				int no = Integer.parseInt(request.getParameter("no"));
 				
 				BoardVo boardVo = new BoardVo(title, content, no);
-				
-				BoardDao boardDao = new BoardDao();
+
 				int count = boardDao.boardUpdate(boardVo);
 				System.out.println("boardUpdate count: "+count);
 				
 				WebUtil.redirect(request, response, "/mysite3/board?action=list");
 			
 			}else{
-				WebUtil.redirect(request, response, "/mysite3/user?action=loginForm");
+				WebUtil.forward(request, response, "/WEB-INF/views/board/denied.jsp");
 			}
 			
 		}else {
@@ -169,4 +178,6 @@ public class BoardController extends HttpServlet {
 		doGet(request, response);
 	}
 
+	
+	
 }

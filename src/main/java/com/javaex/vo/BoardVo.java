@@ -30,7 +30,7 @@ public class BoardVo {
 	}
 	
 	//boardSelect 용
-	public BoardVo(String name, int hit, String regDate, String title, String content, int no) {
+	public BoardVo(String name, int hit, String regDate, String title, String content, int no, int userNo) {
 		super();
 		this.title = title;
 		this.content = content;
@@ -38,6 +38,7 @@ public class BoardVo {
 		this.hit = hit;
 		this.regDate = regDate;
 		this.no = no;
+		this.userNo = userNo;
 	}
 	
 
